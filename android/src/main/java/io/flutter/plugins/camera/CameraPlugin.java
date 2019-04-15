@@ -857,8 +857,8 @@ public class CameraPlugin implements MethodCallHandler {
                 double difH = m.height() - minH;
                 double cropW = difW /100 * zoon;
                 double cropH = difH /100 * zoon;
-                cropW -= cropW & 3;
-                cropH -= cropH & 3;
+                cropW -= cropW & 3.0;
+                cropH -= cropH & 3.0;
 
                 this.zoon = new Rect(cropW, cropH, m.width() - cropW, m.height() - cropH);
                 captureRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, this.zoon);
