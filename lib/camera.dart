@@ -201,7 +201,7 @@ class CameraController extends ValueNotifier<CameraValue> {
 
 	final CameraDescription description;
 	final ResolutionPreset resolutionPreset;
-	bool isFlashOn;
+	bool isFlashOn = false;
 
 	int _textureId;
 	bool _isDisposed = false;
