@@ -844,6 +844,30 @@ public class CameraPlugin implements MethodCallHandler {
             }
         }
 
+        void zoon(double zoon) {
+            try {
+                CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraName);
+                float maxzoom = (characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)) * 10;
+
+                Rect m = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE); //new Rect(0, 0, 360, 592);
+
+                double minW = (m.width() / maxzoom);
+                double minH = (m.height() / maxzoom);
+                double difW = m.width() - minW;
+                double difH = m.height() - minH;
+                double cropW = difW /100 * zoon;
+                double cropH = difH /100 * zoon;
+                cropW -= cropW & 3;
+                cropH -= cropH & 3;
+
+                this.zoon = new Rect(cropW, cropH, m.width() - cropW, m.height() - cropH);
+                captureRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, this.zoon);
+                cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         private void startPreviewWithImageStream() throws CameraAccessException {
             closeCaptureSession();
 
